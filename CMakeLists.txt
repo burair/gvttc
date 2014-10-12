@@ -1,5 +1,13 @@
+
 project(nedges)
 cmake_minimum_required(VERSION 2.8)
-aux_source_directory(. SRC_LIST)
-add_executable(${PROJECT_NAME} ${SRC_LIST})
+
+# Add the main source directory to the include path
+include_directories(${CMAKE_SOURCE_DIR})
+
+add_subdirectory (Players)
+add_subdirectory (Events)
+add_subdirectory (Test)
+
+
 
