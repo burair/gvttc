@@ -1,8 +1,9 @@
 /*!************************************************************************
+/*!************************************************************************
  *   This file is part of Nedges.                                         *
  *   A table tennis club, league and tournament management package.       *
  *                                                                        *
- *   "May your game be full of nedges (Net and Edges).                    *
+ *   "May your game be full of nedges (Nets and Edges).                   *
  *                                                -- Ray Mack             *
  *   Author: Burair Kothari 2014                                          *
  *                Genesee Valley Table Tennis CLub 2014                   *
@@ -20,7 +21,7 @@
  *   GNU General Public License for more details.                         *
  *                                                                        *
  *   You should have received a copy of the GNU General Public License    *
- *   along with Foobar.  If not, see <http://www.gnu.org/licenses/>.      *
+ *   along with Nedges.  If not, see <http://www.gnu.org/licenses/>.      *
  *                                                                        *
  **************************************************************************/
 #include <iostream>

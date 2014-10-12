@@ -2,7 +2,7 @@
  *   This file is part of Nedges.                                         *
  *   A table tennis club, league and tournament management package.       *
  *                                                                        *
- *   "May your game be full of nedges (Net and Edges).                    *
+ *   "May your game be full of nedges (Nets and Edges).                   *
  *                                                -- Ray Mack             *
  *   Author: Burair Kothari 2014                                          *
  *                Genesee Valley Table Tennis CLub 2014                   *
