@@ -42,7 +42,7 @@ class EventBase
 {
 public:
 
-    virtual ~EventBase();
+    virtual ~EventBase(){}
 
     /*!
      * \brief setEventTime

@@ -24,7 +24,10 @@
  *                                                                        *
  **************************************************************************/
 #include "event.h"
+#include <cmath>
 
 namespace nedges {
+
+Event::~Event() {}
 
 }

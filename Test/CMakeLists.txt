@@ -9,4 +9,4 @@ INCLUDE(${QT_USE_FILE})
 include_directories(${nedges_SOURCE_DIR} ${QT_INCLUDE_DIR})
 
 add_executable(nedges ${nedges_EXE_SRCS})
-target_link_libraries(nedges ${QT_LIBRARIES} Events Players)
+target_link_libraries(nedges ${QT_LIBRARIES} Events Players boost_date_time)

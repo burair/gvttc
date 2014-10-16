@@ -35,6 +35,10 @@
 #include "event.h"
 
 namespace nedges {
+
+typedef std::vector<std::pair<int,int> > RoundRobinMatchupList;
+typedef RoundRobinMatchupList::iterator RoundRobinMatchupListIt;
+
 class RoundRobin : public Event
 {
     /*!
@@ -48,12 +52,40 @@ class RoundRobin : public Event
     typedef boost::shared_ptr<PlayerListType> PlayerListPtrType;
 
 public:
+    /*!
+     * \brief RoundRobin
+     * \param _name
+     * \param date
+     * \param _player_list
+     */
     RoundRobin(std::string _name="", std::string date="", PlayerListPtrType _player_list=boost::make_shared<PlayerListType>());
+
+    /*!
+     * \brief AddPlayer
+     * \param _player
+     */
+    void AddPlayer(PlayerPtr _player);
+
+    /*!
+     * \brief getPlayerList
+     * \return
+     */
+    PlayerListType & getPlayerList() const;
 
 
 private:
+    /*!
+     * \brief player_list
+     */
     PlayerListType player_list;
 
 };
+
+void ScheduleRoundRobin(int num_players, int num_tables);
+
+int MatchesInRoundRobin(int num_players);
+
+int PossibleMatchups(int num_players , RoundRobinMatchupList & rr_matchups);
+
 }
 #endif // ROUNDROBIN_H

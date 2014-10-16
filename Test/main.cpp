@@ -1,5 +1,4 @@
 /*!************************************************************************
-/*!************************************************************************
  *   This file is part of Nedges.                                         *
  *   A table tennis club, league and tournament management package.       *
  *                                                                        *
@@ -26,12 +25,13 @@
  **************************************************************************/
 #include <iostream>
 #include "Players/player.h"
+#include "Events/roundrobin.h"
 
 using namespace std;
 
 int main()
 {
-    nedges::Player team1_p1("Burair Kothari",'F',"GVTTC");
+    nedges::Player team1_p1("Burair Kothari",'M',"GVTTC");
 
     nedges::Player team5_p2 = team1_p1;
 
@@ -47,6 +47,9 @@ int main()
 
     cout << "Hello " << myname << " " << mygender <<  "! " << endl;
     cout << "Hello " << myname2 << " " <<  mygender2 << "! " <<  endl;
+
+
+    nedges::ScheduleRoundRobin(15,8);
     return 0;
 }
 

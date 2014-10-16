@@ -86,5 +86,7 @@ private:
     std::string name;
 };
 
+
+
 } // namespace nedges
 #endif // EVENT_H
