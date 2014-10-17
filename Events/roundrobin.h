@@ -31,13 +31,13 @@
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include <vector>
 #include <string>
-#include "Players/player.h"
+#include "Participants/player.h"
 #include "event.h"
 
 namespace nedges {
 
-typedef std::vector<std::pair<int,int> > RoundRobinMatchupList;
-typedef RoundRobinMatchupList::iterator RoundRobinMatchupListIt;
+typedef std::vector<std::pair<int,int> > RRMatchupList;
+typedef RRMatchupList::iterator RRMatchupListIt;
 
 class RoundRobin : public Event
 {
@@ -81,11 +81,11 @@ private:
 
 };
 
-void ScheduleRoundRobin(int num_players, int num_tables);
+void ScheduleRoundRobin(int num_participants, int num_venues);
 
-int MatchesInRoundRobin(int num_players);
+int MatchesInRoundRobin(int num_participants);
 
-int PossibleMatchups(int num_players , RoundRobinMatchupList & rr_matchups);
+int PossibleMatchups(int num_participants , RRMatchupList & rr_matchups);
 
 }
 #endif // ROUNDROBIN_H

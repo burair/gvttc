@@ -32,26 +32,26 @@ RoundRobin::RoundRobin(std::string _name, std::string date,PlayerListPtrType _pl
 
 }
 
-void ScheduleRoundRobin(int num_players, int num_tables_available) {
-    int num_matches = MatchesInRoundRobin(num_players);
-    int num_tables = num_tables_available;
-    if (num_tables > (num_players/2) ) {
-        num_tables = num_players / 2;
-        std::cout << "There are " << num_tables_available - num_tables << " extra tables allocated" << std::endl;
+void ScheduleRoundRobin(int num_participants, int num_venues_available) {
+    int num_matches = MatchesInRoundRobin(num_participants);
+    int num_venues = num_venues_available;
+    if (num_venues > (num_participants/2) ) {
+        num_venues = num_participants / 2;
+        std::cout << "There are " << num_venues_available - num_venues << " extra tables allocated" << std::endl;
     }
-    int num_rounds = ceil((double) num_matches / num_tables);
-    int nbyes = num_players - (num_tables * 2);
+    int num_rounds = ceil((double) num_matches / num_venues);
+    int nbyes = num_participants - (num_venues * 2);
 
-    RoundRobinMatchupList rr_matchups;
-    PossibleMatchups(num_players, rr_matchups);
+    RRMatchupList rr_matchups;
+    PossibleMatchups(num_participants, rr_matchups);
 
     std::cout << "There are " << num_matches << " matches with " << num_rounds
-              << " rounds, and " << num_tables << " matches per round." << std::endl;
+              << " rounds, and " << num_venues << " matches per round." << std::endl;
     std::cout << "In each round there are " << nbyes << " players with a bye." << std::endl;
 
     std::cout << "Here are all possible matchups" << std::endl;
 
-    for (RoundRobinMatchupListIt rr_it = rr_matchups.begin(); rr_it!=rr_matchups.end(); ++rr_it)
+    for (RRMatchupListIt rr_it = rr_matchups.begin(); rr_it!=rr_matchups.end(); ++rr_it)
         std::cout << "(" <<  rr_it->first << ", " << rr_it->second << "); ";
     std::cout << std::endl;
 
@@ -61,13 +61,13 @@ void ScheduleRoundRobin(int num_players, int num_tables_available) {
 
 }
 
-int MatchesInRoundRobin(int num_players) {
-    return (num_players * (num_players - 1) /2);
+int MatchesInRoundRobin(int num_participants) {
+    return (num_participants * (num_participants - 1) /2);
 }
 
-int PossibleMatchups(int num_players , RoundRobinMatchupList & rr_matchups) {
-    for (int i = 1; i!=num_players+1;++i)
-       for (int j = i+1; j!=num_players + 1; ++j )
+int PossibleMatchups(int num_participants , RRMatchupList & rr_matchups) {
+    for (int i = 1; i!=num_participants+1;++i)
+       for (int j = i+1; j!=num_participants + 1; ++j )
     rr_matchups.push_back(std::make_pair(i,j));
 }
 

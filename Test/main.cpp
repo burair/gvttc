@@ -24,7 +24,7 @@
  *                                                                        *
  **************************************************************************/
 #include <iostream>
-#include "Players/player.h"
+#include "Participants/player.h"
 #include "Events/roundrobin.h"
 
 using namespace std;
