@@ -38,6 +38,10 @@ namespace nedges {
 
 typedef std::vector<std::pair<int,int> > RRMatchupList;
 typedef RRMatchupList::iterator RRMatchupListIt;
+typedef RRMatchupList::const_iterator RRMatchupListCIt;
+typedef std::vector<std::pair<int,RRMatchupList> > RRSchedule;
+typedef RRSchedule::iterator RRScheduleIt;
+typedef RRSchedule::const_iterator RRScheduleCIt;
 
 class RoundRobin : public Event
 {
@@ -79,13 +83,31 @@ private:
      */
     PlayerListType player_list;
 
-};
+}; //class RoundRobin
 
 void ScheduleRoundRobin(int num_participants, int num_venues);
 
 int MatchesInRoundRobin(int num_participants);
 
-int PossibleMatchups(int num_participants , RRMatchupList & rr_matchups);
+int PossibleMatchups( RRMatchupList & rr_matchups, int num_participants);
+
+void ConstructStandardRoundRobinSchedule(RRSchedule & rr_sched, int num_participants, int num_venues);
+
+void ConstructStandardRoundRobinTournament(RRSchedule & rr_sched, int num_participants);
+
+bool BalanceStandardRoundRobinTournament(RRSchedule & rr_sched);
+
+bool IsBalancedStandardRoundRobinTournament (RRSchedule const & rr_sched);
+
+bool ReOrderRoundRobinRows(RRSchedule const & rr_sched);
+
+void ExchangeElementsForBalance(RRSchedule const & rr_sched);
+
+bool ValidStandardRoundRobinTournament(RRSchedule const & rr_sched);
+
+bool CheckRoundRobinRow(RRMatchupList const & rr_mlist);
+
+bool ValidRoundRobinSchedule(RRSchedule const & rr_sched);
 
 }
 #endif // ROUNDROBIN_H

@@ -54,7 +54,7 @@ public:
 
     /*!
      * \brief setPlace
-     * set the place the person comes from or belongs to (club, locality, organization etc.
+     * set the place the person comes from or belongs to (club, locality, organization etc.)
      *
      * \param _place
      */

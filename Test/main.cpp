@@ -31,25 +31,7 @@ using namespace std;
 
 int main()
 {
-    nedges::Player team1_p1("Burair Kothari",'M',"GVTTC");
-
-    nedges::Player team5_p2 = team1_p1;
-
-    std::string myname(team5_p2.getName());
-
-    nedges::Player team6_p3(team5_p2);
-
-    std::string myname2 = team6_p3.getName();
-
-    char mygender = team5_p2.getGender();
-
-    char mygender2 = team6_p3.getGender();
-
-    cout << "Hello " << myname << " " << mygender <<  "! " << endl;
-    cout << "Hello " << myname2 << " " <<  mygender2 << "! " <<  endl;
-
-
-    nedges::ScheduleRoundRobin(15,8);
+    nedges::ScheduleRoundRobin(7,7);
     return 0;
 }
 
