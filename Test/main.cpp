@@ -31,7 +31,7 @@ using namespace std;
 
 int main()
 {
-    nedges::ScheduleRoundRobin(7,7);
+    nedges::ScheduleRoundRobin(22,5);
     return 0;
 }
 
