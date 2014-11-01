@@ -24,8 +24,8 @@
  *                                                                        *
  **************************************************************************/
 #include "roundrobin.h"
-#include <set>
 #include "boost/math/common_factor.hpp"
+#include <set>
 
 namespace nedges {
 
@@ -101,7 +101,18 @@ void ScheduleRoundRobin(int num_participants, int num_venues_available) {
     */
 
     //ConstructFactoredBalancedRoundRobinTournament2n(st_sched, 6);
-    ConstructFactoredBalancedRoundRobinTournament2x2kplus1(st_sched,210);
+    ConstructFactoredBalancedRoundRobinTournament2x2kplus1(st_sched,10);
+    for (RRScheduleIt rit = st_sched.begin(); rit != st_sched.end(); ++rit) {
+        for (RRMatchupListIt mlit = rit->second.begin(); mlit != rit->second.end(); ++mlit) {
+            std::cout << " (" << mlit->first << "," << mlit->second << ")";
+        }
+        std::cout << std::endl;
+    }
+    if (IsBalancedStandardRoundRobinTournament(st_sched)) {
+        std::cout << "This is a balanced rr" << std::endl;
+    } else {
+        std::cout << "Not a balanced rr" << std::endl;
+    }
 }
 
 int MatchesInRoundRobin(int num_participants) {
@@ -239,6 +250,7 @@ void ConstructFactoredBalancedRoundRobinTournament2n(RRSchedule & rr_sched, int 
       std::cout << std::endl;
     }
 }
+
 /*!
  * \brief DisplayModSchedule
  * \param mrs
@@ -248,8 +260,7 @@ void DisplayModSchedule(ModSched const & mrs) {
   for (ModSchedCIt i=mrs.begin(); i!=mrs.end();++i) {
       std::cout << i->first;
     for (ModMatchListCIt j=i->second.begin(); j!=i->second.end(); ++j) {
-      std::cout << "( " << j->first.first << "_" << j->first.second << ", " <<
-                   j->second.first << "_" << j->second.second << ")  ";
+        DisplayModMatch(*j);
       }
       std::cout << std::endl;
     }
@@ -275,7 +286,30 @@ void ConstructFactoredBalancedRoundRobinTournament2x2kplus1(RRSchedule & rr_sche
   FixRowsEFBTD(mrs,k);
 
 //  DisplayModSchedule(mrs);
+  UnModSchedule(rr_sched, mrs, k);
 }
+
+void UnModSchedule(RRSchedule & rr_sched, ModSched const & mrs, int k) {
+  for (ModSchedCIt mm=mrs.begin(); mm!=mrs.end(); ++mm) {
+      RRRound r;
+      r.first=mm->first;
+      for (ModMatchListCIt ml = mm->second.begin(); ml!=mm->second.end(); ++ml) {
+          RRMatch m;
+          m.first = ml->first.first + (2*k+1)*(ml->first.second - 1);
+          m.second = ml->second.first + (2*k+1)*(ml->second.second - 1);
+          r.second.push_back(m);
+        }
+      rr_sched.push_back(r);
+    }
+  return;
+}
+
+
+/*!
+ * \brief FixRowsEFBTD
+ * \param mrs
+ * \param k
+ */
 
 void FixRowsEFBTD(ModSched & mrs,int k) {
   for (ModSchedIt i = mrs.begin(); i!=mrs.end(); ++i) {
@@ -288,15 +322,160 @@ void FixRowsEFBTD(ModSched & mrs,int k) {
        * of element pairs cycles back to the first element in the first pair
        */
       int t = FindPeriod(k, i->first);
+//      std::cout << "The Period for this row is " << t << std::endl;
       /*!
        * \brief np
-       * The number of element in each cyclic sequence of repeating elements in a
+       * The number of sets of each cyclic sequence of repeating elements in a
+       * row
        * Factored BTD construction
        */
       int np = (2*k+1)/t;
 
+      std::vector<std::map<int,int> > csi;
+      CalculateCosetIndices(csi,k,i->first,t);
+      SwapCosetElements(mrs,csi,k ,i->first);
+//      ModRoundList rl;
+
+//      rl.push_back(std::make_pair(i->first,i->second));
+//      GetCosetRounds(mrs,rl,k,i->first);
+//      std::cout << rl.size() << rl.at(0).first << rl.at(1).first << rl.at(2).first << std::endl;
+//      ModCosetList cs;
+//      FindCosetSets(rl,cs,t,np,k);
+//      SwapCosetElements(cs);
+//      ModifyScheduleEFBTD(mrs,cs);
+
     }
 }
+
+void SwapCosetElements(ModSched &mrs, std::vector<std::map<int,int> > const & csi, int k, int i) {
+    int t = FindPeriod(k,i);
+    for (std::vector<std::map<int,int> >::const_iterator j = csi.begin(); j!=csi.end(); ++j) {
+      for (int r = 1; r !=t;r+=2 ) {
+        ModMatch & s1 = mrs[i].second[j->at(r)];
+        ModMatch & s2 = mrs[i+k].second[j->at(r)];
+        SwapModMatch (s1,s2);
+      }
+      ModMatch & s1 = mrs[i+k].second[j->at(0)];
+      ModMatch & s2 = mrs[i+2*k].second[j->at(0)];
+      SwapModMatch(s1,s2);
+      ModMatch & s3 = mrs[i].second[j->at(t-1)];
+      ModMatch & s4 = mrs[i+2*k].second[j->at(t-1)];
+      SwapModMatch(s3,s4);
+  }
+  return;
+}
+
+void SwapModMatch(ModMatch &s1, ModMatch &s2) {
+  ModMatch tmp;
+  tmp = s1;
+  s1 = s2;
+  s2 = tmp;
+  return;
+
+}
+
+void GetCosetRounds(ModSched const &mrs, ModRoundList &rl, int k, int i) {
+  rl.clear();
+  for (int mk = 0;mk!=3;++mk) {
+    ModRound r = mrs.at(mk*k+i);
+    rl.push_back(r);
+    }
+  return;
+}
+
+/*!
+ * \brief FindCosetSets
+ * \param rl
+ * \param csl
+ * \param t
+ * \param np
+ * \param k
+ *
+ * Identifies the set of matches (coset) which need to be swapped between rounds in the schedule
+ * generated by the ConstructFactoredBalancedRoundRobinTournament2x2kplus1 function. To do this
+ * we first need to identify the matches which contain common elements (participants) in the same
+ * row (round). The pattern for these matches depends on the cyclical period the  matches repeat.
+ * This in turn depends on the round number in conjuction with the # of participants.
+ * This process follows steps outlined in Anderson: Combinatorial Design and Tournaments; Oxford 1997
+ * pp. 197-200
+ *
+ */
+
+void FindCosetSets(ModRoundList const &rl, ModCosetList &csl, int t, int np, int k) {
+  csl.clear();
+  ModCosets cs;
+  for (int mk = 0; mk!=3;++mk) {
+      ModRound const & r = rl.at(mk);
+      int i = r.first;
+      ModCoset mc;
+      ModMatch mmp = r.second.front();
+      while (mc.size() < (2*k+1)) {
+        int ec=0;
+        while(ec < t ) {
+            int col=0;
+            for(ModMatchListCIt mm = r.second.begin(); mm!=r.second.end(); ++mm) {
+                ++col;
+                if((mm->first == mmp.first) && (mm->second == mmp.second)) {
+//                  DisplayModMatch(*mm);
+                  mc[*mm]=std::make_pair(i,col);
+//                  std::cout << i << col << std::endl;
+                  mmp.first.first = (((mmp.first.first + -2*i) % (2*k+1)) + (2*k + 1) ) % (2*k + 1);
+                  mmp.second.first = (((mmp.second.first + -2*i) % (2*k+1)) +(2*k + 1)) % (2*k + 1);
+                  ++ec;
+                }
+              }
+          }
+        for(ModMatchListCIt mm = r.second.begin(); mm!=r.second.end();++mm) {
+            if(mc.count(*mm) == 0) {
+                mmp = *mm;
+                break;
+              }
+          }
+        }
+      cs.push_back(mc);
+    }
+  csl.push_back(cs);
+//  DisplayCosetList(csl);
+  return;
+}
+
+void CalculateCosetIndices(std::vector<std::map<int,int> > & ind,int k,int i, int t) {
+    ind.clear();
+    int column = 0 ; int col = 0;
+    std::set<int> Zn;
+    for (int n=0;n!=2*k+1;++n) Zn.insert(n);
+    while (Zn.find(column) != Zn.end()) {
+        std::map<int,int> m;
+        for (int c=0; c!=t; ++c) {
+          Zn.erase(col);
+          m[c] = col;
+          col = (col + ((( -2 * i) % (2*k + 1)) + 2*k + 1) % (2*k + 1)) % (2*k + 1);
+          }
+        ind.push_back(m);
+        col=++column;
+      }
+    return;
+}
+
+
+void DisplayModMatch(ModMatch const & mm) {
+  std::cout << "(" << mm.first.first <<"_" << mm.first.second << "," <<mm.second.first << "_"<< mm.second.second << ") ";
+}
+
+void DisplayCosetList(ModCosetList const & csl) {
+  for (ModCosetList::const_iterator c = csl.begin(); c!=csl.end(); ++c) {
+      for(ModCosets::const_iterator s = c->begin();s!= c->end();++s) {
+          ModCoset::value_type a;
+          std::pair<ModMatch, Position> b=a;
+          std::vector<ModCoset::value_type> v(s->begin(),s->end());
+          for (int i=0;i<v.size();++i) {
+              DisplayModMatch(v[i].first);
+              std::cout << " at " << v[i].second.first << "," << v[i].second.second << std::endl;
+           }
+        }
+    }
+}
+
 
 /*!
  * \brief FindPeriod

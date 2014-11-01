@@ -30,29 +30,42 @@
 #include "boost/make_shared.hpp"
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include <vector>
+#include <map>
 #include <string>
 #include "Participants/player.h"
 #include "event.h"
 
 namespace nedges {
+
+  /*!
+   * typedefs
+   */
   typedef std::pair<int,int> RRMatch;
   typedef std::vector<RRMatch> RRMatchupList;
   typedef RRMatchupList::iterator RRMatchupListIt;
   typedef RRMatchupList::const_iterator RRMatchupListCIt;
-  typedef std::vector<std::pair<int,RRMatchupList> > RRSchedule;
+  typedef std::pair<int,RRMatchupList> RRRound;
+  typedef std::vector<RRRound> RRSchedule;
   typedef RRSchedule::iterator RRScheduleIt;
   typedef RRSchedule::const_iterator RRScheduleCIt;
 
 
   typedef std::pair<int,int> ModElement;
+  typedef std::pair<int,int> Position;
   typedef std::pair< ModElement, ModElement> ModMatch;
   typedef std::vector<ModMatch> ModMatchList;
   typedef std::pair<int, ModMatchList> ModRound;
-  typedef std::vector<ModRound> ModSched;
+  typedef std::vector<ModRound> ModRoundList;
+  typedef ModRoundList ModSched;
   typedef ModMatchList::iterator ModMatchListIt;
   typedef ModMatchList::const_iterator ModMatchListCIt;
   typedef ModSched::iterator ModSchedIt;
   typedef ModSched::const_iterator ModSchedCIt;
+  typedef std::pair<Position, ModMatch> ModIMatch;
+  typedef std::map<ModMatch,Position> ModCoset;
+  typedef std::vector<ModCoset> ModCosets;
+  typedef std::vector<ModCosets> ModCosetList;
+
 
   class RoundRobin : public Event
   {
@@ -163,7 +176,25 @@ namespace nedges {
 
   void DisplayModSchedule(ModSched const & mrs);
 
+  void DisplayModMatch(ModMatch const &mm);
+
   void InitializeRoundEFBTD(ModRound & R, int round,  ModElement & M11, ModElement & M12);
+
+  void GetCosetRounds(ModSched const & mrs, ModRoundList &rl, int k, int i);
+
+  void FindCosetSets(ModRoundList const & rl, ModCosetList & cs, int t, int np, int k);
+
+  void CalculateCosetIndices(std::vector<std::map<int,int> > &ind,int k, int i,int t);
+
+  void SwapModMatch(ModMatch & s1, ModMatch &s2);
+
+  void UnModSchedule(RRSchedule & rr_sched, ModSched const & mrs, int k);
+
+  void DisplayCosetList(ModCosetList const & csl);
+
+  void SwapCosetElements(ModSched & mrs, std::vector<std::map<int,int> > const & csi, int k, int i);
+
+  void ModifyScheduleEFBTD(ModSched & mrs, ModCosetList const & cs);
 
   /*!
    * \brief BalanceStandardRoundRobinTournamentHaselgroveLeech
