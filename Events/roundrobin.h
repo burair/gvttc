@@ -2,8 +2,8 @@
  *   This file is part of Nedges.                                         *
  *   A table tennis club, league and tournament management package.       *
  *                                                                        *
- *   "May your game be full of nedges (Nets and Edges).                   *
- *                                                -- Ray Mack             *
+ *   "Wish you LOTS of nedges (Nets and Edges)!!."                        *
+ *                                          -- Wayne Carney, Ray Mack     *
  *   Author: Burair Kothari 2014                                          *
  *                Genesee Valley Table Tennis CLub 2014                   *
  *                http://www.gvttc.com                                    *
@@ -23,8 +23,8 @@
  *   along with Nedges.  If not, see <http://www.gnu.org/licenses/>.      *
  *                                                                        *
  **************************************************************************/
-#ifndef ROUNDROBIN_H
-#define ROUNDROBIN_H
+#ifndef NEDGES_ROUNDROBIN_H
+#define NEDGES_ROUNDROBIN_H
 
 #include "boost/shared_ptr.hpp"
 #include "boost/make_shared.hpp"
@@ -110,13 +110,6 @@ namespace nedges {
   }; //class RoundRobin
 
   /*!
-   * \brief ScheduleRoundRobin
-   * \param num_participants
-   * \param num_venues
-   */
-  void ScheduleRoundRobin(int num_participants, int num_venues);
-
-  /*!
    * \brief MatchesInRoundRobin
    * \param num_participants
    * \return
@@ -153,14 +146,6 @@ namespace nedges {
    * \param num_participants
    */
   void CounstructFactoredBalancedRoundRobinTournment(RRSchedule & rr_sched, int num_participants);
-
-  /*!
-   * \brief ConstructFactoredBalancedRoundRobinTournament2n
-   * \param rr_sched
-   * \param num_participants
-   */
-  void ConstructFactoredBalancedRoundRobinTournament2n(RRSchedule & rr_sched, int num_participants);
-
 
   void ConstructFactoredBalancedRoundRobinTournament2x2kplus1(RRSchedule & rr_sched, int num_participants);
 
@@ -289,4 +274,4 @@ namespace nedges {
 
 } //namespace nedges
 
-#endif // ROUNDROBIN_H
+#endif // NEDGES_ROUNDROBIN_H

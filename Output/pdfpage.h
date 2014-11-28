@@ -2,8 +2,8 @@
  *   This file is part of Nedges.                                         *
  *   A table tennis club, league and tournament management package.       *
  *                                                                        *
- *   "May your game be full of nedges (Nets and Edges)."                  *
- *                                                -- Ray Mack             *
+ *   "Wish you LOTS of nedges (Nets and Edges)!!."                        *
+ *                                          -- Wayne Carney, Ray Mack     *
  *   Author: Burair Kothari 2014                                          *
  *                Genesee Valley Table Tennis CLub 2014                   *
  *                http://www.gvttc.com                                    *
@@ -23,11 +23,38 @@
  *   along with Nedges.  If not, see <http://www.gnu.org/licenses/>.      *
  *                                                                        *
  **************************************************************************/
-#include "event.h"
-#include <cmath>
+#ifndef NEDGES_PDFPAGE_H
+#define NEDGES_PDFPAGE_H
+
+#include "hpdf.h"
+
 
 namespace nedges {
 
-Event::~Event() {}
+  class pdfdoc;
 
-}
+class pdfpage
+{
+public:
+  pdfpage();
+
+  pdfpage(pdfpage const & _page);
+
+  pdfpage(pdfdoc & _pdf);
+
+  pdfpage & operator=(pdfpage const & _page) {
+      page = _page.page;
+  }
+
+  HPDF_Page & GetPage() {
+    return page;
+  }
+
+private:
+  HPDF_Page page;
+  pdfdoc & doc;
+
+};
+
+} // namespace nedges
+#endif // NEDGES_PDFPAGE_H

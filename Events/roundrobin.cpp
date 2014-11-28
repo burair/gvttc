@@ -2,7 +2,7 @@
  *   This file is part of Nedges.                                         *
  *   A table tennis club, league and tournament management package.       *
  *                                                                        *
- *   "May your game be full of nedges (Nets and Edges).                   *
+ *   "May your game be full of nedges (Nets and Edges)."                  *
  *                                                -- Ray Mack             *
  *   Author: Burair Kothari 2014                                          *
  *                Genesee Valley Table Tennis CLub 2014                   *
@@ -47,78 +47,20 @@ RoundRobin::RoundRobin(std::string _name, std::string date,PlayerListPtrType _pl
 {
 
 }
-
-void ScheduleRoundRobin(int num_participants, int num_venues_available) {
-    int num_matches = MatchesInRoundRobin(num_participants);
-    int num_venues = num_venues_available;
-    if (num_venues > (num_participants/2) ) {
-        num_venues = num_participants / 2;
-        std::cout << "There are " << num_venues_available - num_venues << " extra tables allocated" << std::endl;
-    }
-    int num_rounds = ceil((double) num_matches / num_venues);
-    int nbyes = num_participants - (num_venues * 2);
-
-    RRMatchupList rr_matchups;
-    PossibleMatchups(rr_matchups, num_participants);
-
-    std::cout << "There are " << num_matches << " matches with " << num_rounds
-              << " rounds, and " << num_venues << " matches per round." << std::endl;
-    std::cout << "In each round there are " << nbyes << " players with a bye." << std::endl;
-
-    std::cout << "Here are all possible matchups" << std::endl;
-
-    for (RRMatchupListIt rr_it = rr_matchups.begin(); rr_it!=rr_matchups.end(); ++rr_it)
-        std::cout << "(" <<  rr_it->first << ", " << rr_it->second << "); ";
-    std::cout << std::endl;
-
-    if(num_matches != rr_matchups.size()) {
-        std::cerr << "Error! matchups not the same as num_matches" << std::endl;
-    }
-
-    int odd = num_participants % 2;
-    int np = num_participants + odd;
-
-    RRSchedule st_sched;
-/*
-    ConstructStandardRoundRobinSchedule(st_sched,num_participants,num_venues, num_rounds);
-    for (RRScheduleIt rit = st_sched.begin(); rit != st_sched.end(); ++rit) {
-        for (RRMatchupListIt mlit = rit->second.begin(); mlit != rit->second.end(); ++mlit) {
-            std::cout << " (" << mlit->first << "," << mlit->second << ")";
-        }
-        std::cout << std::endl;
-    }
-    if (BalanceStandardRoundRobinTournamentHaselgroveLeech(st_sched)) {
-        std::cout << "This is a balanced rr" << std::endl;
-    } else {
-        std::cout << "Not a balanced rr" << std::endl;
-    }
-    for (RRScheduleIt rit = st_sched.begin(); rit != st_sched.end(); ++rit) {
-        for (RRMatchupListIt mlit = rit->second.begin(); mlit != rit->second.end(); ++mlit) {
-            std::cout << " (" << mlit->first << "," << mlit->second << ")";
-        }
-        std::cout << std::endl;
-    }
-    */
-
-    //ConstructFactoredBalancedRoundRobinTournament2n(st_sched, 6);
-    ConstructFactoredBalancedRoundRobinTournament2x2kplus1(st_sched,10);
-    for (RRScheduleIt rit = st_sched.begin(); rit != st_sched.end(); ++rit) {
-        for (RRMatchupListIt mlit = rit->second.begin(); mlit != rit->second.end(); ++mlit) {
-            std::cout << " (" << mlit->first << "," << mlit->second << ")";
-        }
-        std::cout << std::endl;
-    }
-    if (IsBalancedStandardRoundRobinTournament(st_sched)) {
-        std::cout << "This is a balanced rr" << std::endl;
-    } else {
-        std::cout << "Not a balanced rr" << std::endl;
-    }
-}
-
+/*!
+ * \brief MatchesInRoundRobin
+ * \param num_participants
+ * \return
+ */
 int MatchesInRoundRobin(int num_participants) {
     return (num_participants * (num_participants - 1) /2);
 }
-
+/*!
+ * \brief PossibleMatchups
+ * \param rr_matchups
+ * \param num_participants
+ * \return
+ */
 int PossibleMatchups(RRMatchupList & rr_matchups, int num_participants ) {
     for (int i = 1; i!=num_participants+1;++i)
        for (int j = i+1; j!=num_participants + 1; ++j )
@@ -186,70 +128,6 @@ void ConstructStandardRoundRobinTournament(RRSchedule & rr_sched, int num_partic
     }
 }
 
-/*!
- * \brief CounstructFactoredBalancedRoundRobinTournment
- * \param rr_sched
- * \param num_participants
- */
-void CounstructFactoredBalancedRoundRobinTournment(RRSchedule & rr_sched, int num_participants) {
-  if ( (num_participants%2 == 0) && ( (num_participants/2) % 2 !=0 ) )
-    ConstructFactoredBalancedRoundRobinTournament2n(rr_sched, num_participants);
-}
-
-
-/*!
- * \brief ConstructFactoredBalancedRoundRobinTournament
- * \param rr_sched
- * \param num_participants -- this function will throw an exception if this parameter is not even
- *
- */
-
-void ConstructFactoredBalancedRoundRobinTournament2n(RRSchedule & rr_sched, int num_participants) {
-  if ( (num_participants %2 !=0)  || ( (num_participants/2) % 2 == 0 )) return;
-
-  int n = num_participants/2;
-  int k = (n - 1) / 2;
-
-
-  typedef std::pair < std::pair<int,int>, std::pair<int,int> > mod_Matchup;
-  typedef std::vector<mod_Matchup> mod_MatchList;
-  typedef std::pair<int, mod_MatchList> mod_Round;
-  typedef std::vector< mod_Round> mod_Sched;
-
-  mod_Sched mrs;
-  mod_Matchup m00(std::make_pair(std::make_pair(0,1),std::make_pair(0,2)));
-  mod_MatchList ml0;
-  ml0.push_back(m00);
-  mod_Round mr0(std::make_pair(0,ml0));
-  mrs.push_back(mr0);
-  for (int mk =1; mk!=5;++mk) {
-      if (mk == 6) break;
-      for (int r = 1; r!= k + 1; ++r) {
-          int round = r + (mk-1)*k;
-          mod_Round & mpr = mrs.back();
-          for (int c = 1; c!=2*k +1; ++c) {
-              mod_Matchup & pm = mpr.second.back();
-              mod_Matchup tm(std::make_pair(std::make_pair(((pm.first.first + 1)%(2*k+1)), pm.first.second),
-                                            std::make_pair(((pm.second.first+1)%(2*k+1)),pm.second.second)));
-              mpr.second.push_back(tm);
-            }
-
-          mod_Matchup m(std::make_pair(std::make_pair(r,((mk-1)%2) + 1),std::make_pair(2*k - r + 1,(-1 * mk * mk + 5 * mk - 2)/2 )));
-          mod_MatchList ml;
-          ml.push_back(m);
-          mod_Round mr(std::make_pair(round,ml));
-          mrs.push_back(mr);
-        }
-    }
-  for (mod_Sched::const_iterator i=mrs.begin(); i!=mrs.end();++i) {
-      std::cout << i->first;
-    for (mod_MatchList::const_iterator j=i->second.begin(); j!=i->second.end(); ++j) {
-      std::cout << "( " << j->first.first << "_" << j->first.second << ", " <<
-                   j->second.first << "_" << j->second.second << ")  ";
-      }
-      std::cout << std::endl;
-    }
-}
 
 /*!
  * \brief DisplayModSchedule
@@ -285,7 +163,6 @@ void ConstructFactoredBalancedRoundRobinTournament2x2kplus1(RRSchedule & rr_sche
   ConstructRowsEFBTD(mrs,n,k);
   FixRowsEFBTD(mrs,k);
 
-//  DisplayModSchedule(mrs);
   UnModSchedule(rr_sched, mrs, k);
 }
 
@@ -322,7 +199,7 @@ void FixRowsEFBTD(ModSched & mrs,int k) {
        * of element pairs cycles back to the first element in the first pair
        */
       int t = FindPeriod(k, i->first);
-//      std::cout << "The Period for this row is " << t << std::endl;
+
       /*!
        * \brief np
        * The number of sets of each cyclic sequence of repeating elements in a
@@ -334,16 +211,6 @@ void FixRowsEFBTD(ModSched & mrs,int k) {
       std::vector<std::map<int,int> > csi;
       CalculateCosetIndices(csi,k,i->first,t);
       SwapCosetElements(mrs,csi,k ,i->first);
-//      ModRoundList rl;
-
-//      rl.push_back(std::make_pair(i->first,i->second));
-//      GetCosetRounds(mrs,rl,k,i->first);
-//      std::cout << rl.size() << rl.at(0).first << rl.at(1).first << rl.at(2).first << std::endl;
-//      ModCosetList cs;
-//      FindCosetSets(rl,cs,t,np,k);
-//      SwapCosetElements(cs);
-//      ModifyScheduleEFBTD(mrs,cs);
-
     }
 }
 
@@ -374,6 +241,7 @@ void SwapModMatch(ModMatch &s1, ModMatch &s2) {
 
 }
 
+/*
 void GetCosetRounds(ModSched const &mrs, ModRoundList &rl, int k, int i) {
   rl.clear();
   for (int mk = 0;mk!=3;++mk) {
@@ -382,7 +250,7 @@ void GetCosetRounds(ModSched const &mrs, ModRoundList &rl, int k, int i) {
     }
   return;
 }
-
+*/
 /*!
  * \brief FindCosetSets
  * \param rl
@@ -399,7 +267,7 @@ void GetCosetRounds(ModSched const &mrs, ModRoundList &rl, int k, int i) {
  * This process follows steps outlined in Anderson: Combinatorial Design and Tournaments; Oxford 1997
  * pp. 197-200
  *
- */
+
 
 void FindCosetSets(ModRoundList const &rl, ModCosetList &csl, int t, int np, int k) {
   csl.clear();
@@ -438,10 +306,29 @@ void FindCosetSets(ModRoundList const &rl, ModCosetList &csl, int t, int np, int
 //  DisplayCosetList(csl);
   return;
 }
+*/
+
+/*!
+ * \brief CalculateCosetIndices
+ * \param ind
+ * \param k
+ * \param i
+ * \param t
+ *
+ * Identifies the set of matches (coset) which need to be swapped between rounds in the schedule
+ * generated by the ConstructFactoredBalancedRoundRobinTournament2x2kplus1 function. To do this
+ * we first need to identify the matches which contain common elements (participants) in the same
+ * row (round). The pattern for these matches depends on the cyclical period the  matches repeat (\param t).
+ * This in turn depends on the round number (\param i) in conjuction with the # of participants (4 * \param k + 2).
+ * This process follows steps outlined in Anderson: Combinatorial Design and Tournaments; Oxford 1997
+ * pp. 197-200
+ *
+ */
 
 void CalculateCosetIndices(std::vector<std::map<int,int> > & ind,int k,int i, int t) {
     ind.clear();
     int column = 0 ; int col = 0;
+    int n = 2*k +1;
     std::set<int> Zn;
     for (int n=0;n!=2*k+1;++n) Zn.insert(n);
     while (Zn.find(column) != Zn.end()) {
@@ -449,7 +336,7 @@ void CalculateCosetIndices(std::vector<std::map<int,int> > & ind,int k,int i, in
         for (int c=0; c!=t; ++c) {
           Zn.erase(col);
           m[c] = col;
-          col = (col + ((( -2 * i) % (2*k + 1)) + 2*k + 1) % (2*k + 1)) % (2*k + 1);
+          col = (col + ((( -2 * i) % n) + n) % n) % n;
           }
         ind.push_back(m);
         col=++column;
@@ -461,21 +348,6 @@ void CalculateCosetIndices(std::vector<std::map<int,int> > & ind,int k,int i, in
 void DisplayModMatch(ModMatch const & mm) {
   std::cout << "(" << mm.first.first <<"_" << mm.first.second << "," <<mm.second.first << "_"<< mm.second.second << ") ";
 }
-
-void DisplayCosetList(ModCosetList const & csl) {
-  for (ModCosetList::const_iterator c = csl.begin(); c!=csl.end(); ++c) {
-      for(ModCosets::const_iterator s = c->begin();s!= c->end();++s) {
-          ModCoset::value_type a;
-          std::pair<ModMatch, Position> b=a;
-          std::vector<ModCoset::value_type> v(s->begin(),s->end());
-          for (int i=0;i<v.size();++i) {
-              DisplayModMatch(v[i].first);
-              std::cout << " at " << v[i].second.first << "," << v[i].second.second << std::endl;
-           }
-        }
-    }
-}
-
 
 /*!
  * \brief FindPeriod
