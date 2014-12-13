@@ -10,6 +10,7 @@ add_subdirectory (Participants)
 add_subdirectory (Events)
 add_subdirectory (Output)
 add_subdirectory (Test)
+add_subdirectory (Lib/Galois)
 
 
 

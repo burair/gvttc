@@ -28,7 +28,6 @@
 #include "Events/roundrobin.h"
 #include "hpdf.h"
 #include "hpdf_types.h"
-
 using namespace std;
 
 namespace nedges {
@@ -65,7 +64,7 @@ void ScheduleRoundRobin(int num_participants, int num_venues_available) {
     int np = num_participants + odd;
 
     RRSchedule st_sched;
-/*
+
     ConstructStandardRoundRobinSchedule(st_sched,num_participants,num_venues, num_rounds);
     for (RRScheduleIt rit = st_sched.begin(); rit != st_sched.end(); ++rit) {
         for (RRMatchupListIt mlit = rit->second.begin(); mlit != rit->second.end(); ++mlit) {
@@ -74,9 +73,9 @@ void ScheduleRoundRobin(int num_participants, int num_venues_available) {
         std::cout << std::endl;
     }
     if (BalanceStandardRoundRobinTournamentHaselgroveLeech(st_sched)) {
-        std::cout << "This is a balanced rr" << std::endl;
+        std::cout << "Below is the balanced rr constructed from the Standard RR" << std::endl;
     } else {
-        std::cout << "Not a balanced rr" << std::endl;
+        std::cout << "Could not construct a balanced rr" << std::endl;
     }
     for (RRScheduleIt rit = st_sched.begin(); rit != st_sched.end(); ++rit) {
         for (RRMatchupListIt mlit = rit->second.begin(); mlit != rit->second.end(); ++mlit) {
@@ -84,10 +83,9 @@ void ScheduleRoundRobin(int num_participants, int num_venues_available) {
         }
         std::cout << std::endl;
     }
-    */
 
-    //ConstructFactoredBalancedRoundRobinTournament2n(st_sched, 6);
-    ConstructFactoredBalancedRoundRobinTournament2x2kplus1(st_sched,10);
+    st_sched.clear();
+    ConstructFactoredBalancedRoundRobinTournament2x2kplus1(st_sched,6);
     for (RRScheduleIt rit = st_sched.begin(); rit != st_sched.end(); ++rit) {
         for (RRMatchupListIt mlit = rit->second.begin(); mlit != rit->second.end(); ++mlit) {
             std::cout << " (" << mlit->first << "," << mlit->second << ")";
@@ -112,7 +110,7 @@ void error_handler (HPDF_STATUS error_no, HPDF_STATUS detail_no, void *user_data
 
 int main()
 {
-    nedges::ScheduleRoundRobin(6,3);
+    nedges::ScheduleRoundRobin(8,4);
     HPDF_Doc pdf;
 
     pdf = HPDF_New (error_handler, NULL);

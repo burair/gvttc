@@ -23,72 +23,12 @@
  *   along with Nedges.  If not, see <http://www.gnu.org/licenses/>.      *
  *                                                                        *
  **************************************************************************/
-#ifndef NEDGES_EVENT_H
-#define NEDGES_EVENT_H
-
-#include <string>
-#include "eventbase.h"
-#include "boost/date_time/posix_time/posix_time.hpp"
-#include "boost/date_time/gregorian/gregorian.hpp"
+#include "league.h"
 
 namespace nedges {
-
-typedef boost::gregorian::date Date;
-
-/*!
- * \brief The Event class
- *
- * Base interface for defining all kinds of Table Tennis Events.
- * These may include RoundRobin events, Leagues, Multi Event Tournaments etc.
- * An Event must have a start date (and optionally a start time) and a title.
- * This class implements the virtual functions in EventBase
- */
-
-class Event : public EventBase
+League::League()
 {
-public:
 
-    virtual ~Event();
+}
 
-    /*!
-     * \brief setEventTime
-     *        set/modify the Event start date/time independently of the constructor with a string.
-     * \param _start_time
-     *        A string with the Event date/time
-     */
-
-    void setEventTime(std::string const & _start_time) {
-        boost::posix_time::ptime time = boost::posix_time::time_from_string(_start_time);
-        date = time.date();
-        return;
-    }
-
-    /*!
-     * \brief setEventTitle
-     *          set/modify the Event Title
-     * \param _event_title
-     *          Non-Null string with event title
-     */
-
-
-    void setEventTitle(const std::string & _event_title) {
-        setName(_event_title);
-        return;
-    }
-    /*!
-     * \brief setName
-     * \param _name
-     */
-    void setName(const std::string & _name) {
-        name=_name;
-        return;
-    }
-private:
-    Date date;
-    std::string name;
-};
-
-
-
-} // namespace nedges
-#endif // NEDGES_EVENT_H
+} //namespace nedges

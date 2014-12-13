@@ -3,4 +3,5 @@ add_library (Events
              event.cpp
              roundrobin.cpp
              usatttournament.cpp
+             league.cpp
 )

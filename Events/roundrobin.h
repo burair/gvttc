@@ -35,6 +35,7 @@
 #include "Participants/player.h"
 #include "event.h"
 
+
 namespace nedges {
 
   /*!
@@ -147,38 +148,122 @@ namespace nedges {
    */
   void CounstructFactoredBalancedRoundRobinTournment(RRSchedule & rr_sched, int num_participants);
 
+  /*!
+   * \brief ConstructFactoredBalancedRoundRobinTournament2x2kplus1
+   * \param rr_sched
+   * \param num_participants
+   */
+
   void ConstructFactoredBalancedRoundRobinTournament2x2kplus1(RRSchedule & rr_sched, int num_participants);
-
+  /*!
+   * \brief FixRowsEFBTD
+   * \param mrs
+   * \param k
+   */
   void FixRowsEFBTD(ModSched & mrs, int k);
-
+  /*!
+   * \brief FindCosetSets
+   * \param mrs
+   * \param k
+   * \param i
+   * \param ml
+   */
   void FindCosetSets(ModSched const & mrs, int k, int i, ModMatchList const & ml);
-
+  /*!
+   * \brief FindPeriod
+   * \param k
+   * \param i
+   * \return
+   */
   int FindPeriod(int k, int i);
-
+  /*!
+   * \brief ConstructRowsEFBTD
+   * \param mrs
+   * \param n
+   * \param k
+   */
   void ConstructRowsEFBTD(ModSched & mrs, int n, int k);
-
+  /*!
+   * \brief ConstructColumn1EFBTD
+   * \param mrs
+   * \param n
+   * \param k
+   */
   void ConstructColumn1EFBTD(ModSched & mrs, int n, int k);
-
+  /*!
+   * \brief DisplayModSchedule
+   * \param mrs
+   */
   void DisplayModSchedule(ModSched const & mrs);
-
+  /*!
+   * \brief DisplayModMatch
+   * \param mm
+   */
   void DisplayModMatch(ModMatch const &mm);
-
+  /*!
+   * \brief InitializeRoundEFBTD
+   * \param R
+   * \param round
+   * \param M11
+   * \param M12
+   */
   void InitializeRoundEFBTD(ModRound & R, int round,  ModElement & M11, ModElement & M12);
-
+  /*!
+   * \brief GetCosetRounds
+   * \param mrs
+   * \param rl
+   * \param k
+   * \param i
+   */
   void GetCosetRounds(ModSched const & mrs, ModRoundList &rl, int k, int i);
-
+  /*!
+   * \brief FindCosetSets
+   * \param rl
+   * \param cs
+   * \param t
+   * \param np
+   * \param k
+   */
   void FindCosetSets(ModRoundList const & rl, ModCosetList & cs, int t, int np, int k);
-
+  /*!
+   * \brief CalculateCosetIndices
+   * \param ind
+   * \param k
+   * \param i
+   * \param t
+   */
   void CalculateCosetIndices(std::vector<std::map<int,int> > &ind,int k, int i,int t);
-
+  /*!
+   * \brief SwapModMatch
+   * \param s1
+   * \param s2
+   */
   void SwapModMatch(ModMatch & s1, ModMatch &s2);
-
+  /*!
+   * \brief UnModSchedule
+   * \param rr_sched
+   * \param mrs
+   * \param k
+   */
   void UnModSchedule(RRSchedule & rr_sched, ModSched const & mrs, int k);
-
+  /*!
+   * \brief DisplayCosetList
+   * \param csl
+   */
   void DisplayCosetList(ModCosetList const & csl);
-
+  /*!
+   * \brief SwapCosetElements
+   * \param mrs
+   * \param csi
+   * \param k
+   * \param i
+   */
   void SwapCosetElements(ModSched & mrs, std::vector<std::map<int,int> > const & csi, int k, int i);
-
+  /*!
+   * \brief ModifyScheduleEFBTD
+   * \param mrs
+   * \param cs
+   */
   void ModifyScheduleEFBTD(ModSched & mrs, ModCosetList const & cs);
 
   /*!
