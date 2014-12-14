@@ -110,6 +110,7 @@ namespace nedges {
 
   }; //class RoundRobin
 
+
   /*!
    * \brief MatchesInRoundRobin
    * \param num_participants
