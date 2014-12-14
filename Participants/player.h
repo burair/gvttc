@@ -26,14 +26,18 @@
 #ifndef NEDGES_PLAYER_H
 #define NEDGES_PLAYER_H
 
-#include "person.h"
+//#include "person.h"
+#include <string>
+#include <vector>
 
 namespace nedges {
 /*!
  * \brief The Player class
  */
 
-class Player: public Person {
+typedef std::vector<std::pair<std::string,std::string> > player_identifiers;
+
+class Player {
 public:
 
     /*!
@@ -43,7 +47,9 @@ public:
      * \param _place
      */
 
-    Player (std::string _name="", char _gender='\0', std::string _place=""):name(_name), gender(_gender), place(_place) {}
+    Player (std::string _name="", char _gender='\0', std::string _place_type="", std::string _place=""):name(_name), gender(_gender) {
+       identifiers.push_back(std::make_pair(_place_type,_place));
+    }
 
     /*!
      * Using the compiler generated copy constructor and assignment operator is fine here for
@@ -60,7 +66,9 @@ public:
      * \brief setPlace
      * \param _place
      */
-    void setPlace(std::string const &_place);
+    void addId(std::string const & _ident_type, std::string const &_ident) {
+      identifiers.push_back(std::make_pair(_ident_type,_ident));
+    }
 
     /*!
      * \brief setGender
@@ -82,8 +90,8 @@ public:
      * Player place
      */
 
-    std::string const & getPlace() const {
-        return place;
+    player_identifiers const & getIdentifiers() const {
+        return identifiers;
     }
 
     char const getGender() const;
@@ -91,16 +99,19 @@ public:
 private:
     /*!
      * \brief name
-     * Full name of Player
+     * Full name of Player. Last Name, First Name (optional Middle Name or initial)
      */
 
     std::string name;
 
     /*!
-     * \brief place
-     * The place a player is identified with e.g. club, city, state etc.
+     * \brief identifiers
+     * The identifiers associated with the player. National/Internatioal Organizations, Clubs, Locations: i.e. cities, states, countries etc
+     * in pairs indicating type and value: i.e. A player with a USATT membership, ITTF rating, Ratings Central rating, a member of the clubs GVTTC and MVTTC,
+     * residing in Rochester, NY USA would have:
+     * org,USATT;org,ITTF;org,Ratings Central;club,GVTTC;club,MVTTC;city,Rochester;state,NY;country,USA
      */
-    std::string place;
+    player_identifiers identifiers;
 
     /*!
      * \brief gender

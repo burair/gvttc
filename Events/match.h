@@ -41,93 +41,117 @@ typedef std::vector<match_score> team_match_score;
  * \brief The match class
  */
 
-class match
+class Match
 {
 public:
-  match();
+  Match();
 
-  virtual ~match();
+  virtual ~Match();
 
 private:
   match_score score;
 };
+/*!
+ * \brief The singlesMatch class
+ */
+class SinglesMatch: public Match
+{
+public:
+  SinglesMatch();
+
+private:
+  Player player1;
+  Player player2;
+};
+/*!
+ * \brief The doublesMatch class
+ */
+class DoublesMatch: public Match
+{
+  DoublesMatch();
+private:
+  Player player1a;
+  Player player2a;
+  Player player1b;
+  Player player2b;
+};
 
 /*!
- * \brief The teamMatch class
+ * \brief The TeamMatch class
  */
-class teamMatch
+class TeamMatch
 {
  public:
-  teamMatch();
+  TeamMatch();
 
-  virtual ~teamMatch();
+  virtual ~TeamMatch();
  protected:
   team_match_score match_score;
 };
 
 /*!
- * \brief The teamMatchSwaythling class
+ * \brief The TeamMatchSwaythling class
  */
-class teamMatchSwaythling : public teamMatch {
+class TeamMatchSwaythling : public TeamMatch {
  public:
-  teamMatchSwaythling();
+  TeamMatchSwaythling();
 
 };
 
 /*!
- * \brief The teamMatchCorbillon class
+ * \brief The TeamMatchCorbillon class
  */
-class teamMatchCorbillon : public teamMatch {
+class TeamMatchCorbillon : public TeamMatch {
 public:
-  teamMatchCorbillon();
+  TeamMatchCorbillon();
 };
 
 /*!
- * \brief The teamMatchCorbillonPara class
+ * \brief The TeamMatchCorbillonPara class
  */
-class teamMatchCorbillonPara : public teamMatch {
+class TeamMatchCorbillonPara : public TeamMatch {
 public:
-  teamMatchCorbillonPara();
+  TeamMatchCorbillonPara();
 };
 
 /*!
- * \brief The teamMatchOlympic class
+ * \brief The TeamMatchOlympic class
  */
-class teamMatchOlympic : public teamMatch {
+class TeamMatchOlympic : public TeamMatch {
 public:
-  teamMatchOlympic();
+  TeamMatchOlympic();
 };
 
 /*!
- * \brief The teamMatchBo7 class
+ * \brief The TeamMatchBo7 class
  */
-class teamMatchBo7 : public teamMatch {
+class TeamMatchBo7 : public TeamMatch {
 public:
-  teamMatchBo7();
+  TeamMatchBo7();
 };
 
 /*!
- * \brief The teamMatchBo9 class
+ * \brief The TeamMatchBo9 class
  */
-class teamMatchBo9 : public teamMatch {
+class TeamMatchBo9 : public TeamMatch {
 public:
-  teamMatchBo9();
+  TeamMatchBo9();
 };
 
 /*!
  * \brief The teamMatchBo9d class
  */
-class teamMatchBo9d : public teamMatch {
+class TeamMatchBo9d : public TeamMatch {
 public:
-  teamMatchBo9d();
+  TeamMatchBo9d();
 };
 
 /*!
  * \brief The teamMatch4pBo12 class
  */
-class teamMatch4pBo12 : public teamMatch {
+class TeamMatch4pBo12 : public TeamMatch {
 public:
-  teamMatch4pBo12();
+  TeamMatch4pBo12();
 };
 
 } //namespace nedges

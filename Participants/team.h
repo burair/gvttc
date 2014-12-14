@@ -31,10 +31,10 @@
 
 namespace nedges {
 
-class team
+class Team
 {
 public:
-  team();
+  Team();
 
 private:
   std::vector<Player> players;
@@ -44,4 +44,4 @@ private:
 };
 
 } // namespace nedges
-#endif // TEAM_H
+#endif // NEDGES_TEAM_H

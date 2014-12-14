@@ -33,11 +33,6 @@ void Player::setName(const std::string & _name) {
     return;
 }
 
-void Player::setPlace(const std::string &_place){
-    place = _place;
-    return;
-}
-
 void Player::setGender(char const _gender) {
     if ((_gender == 'M') || (_gender == 'm')) {
         gender = 'M';

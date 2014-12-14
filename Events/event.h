@@ -27,7 +27,7 @@
 #define NEDGES_EVENT_H
 
 #include <string>
-#include "eventbase.h"
+//#include "eventbase.h"
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/gregorian/gregorian.hpp"
 
@@ -44,7 +44,7 @@ typedef boost::gregorian::date Date;
  * This class implements the virtual functions in EventBase
  */
 
-class Event : public EventBase
+class Event
 {
 public:
 

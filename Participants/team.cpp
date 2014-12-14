@@ -1,7 +1,7 @@
 #include "team.h"
 
 namespace nedges {
-team::team()
+Team::Team()
 {
 }
 

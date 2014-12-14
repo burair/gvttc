@@ -27,7 +27,7 @@
 
 namespace nedges {
 
-match::match()
+Match::Match()
 {
 }
 

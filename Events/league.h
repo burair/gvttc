@@ -27,20 +27,41 @@
 #define NEDGES_LEAGUE_H
 
 #include "event.h"
+#include "Participants/player.h"
+#include "Participants/team.h"
 
 namespace nedges {
 
-typedef std::pair<int,Date> LeagueDate;
-typedef std::vector<LeagueDate> LeagueSchedule;
+typedef std::pair<int,Date> league_date;
+typedef std::vector<league_date> league_schedule;
 
+typedef std::vector<Team> teams;
 class League : public Event
 {
 public:
   League();
 
-private:
-  LeagueSchedule schedule;
+  virtual ~League();
+protected:
+  league_schedule schedule;
 };
 
+class TeamLeague: public League
+{
+public:
+  TeamLeague();
+
+private:
+
+};
+
+class LadderLeague: public League
+{
+public:
+  LadderLeague();
+
+private:
+
+};
 } //namespace nedges
 #endif // LEAGUE_H
