@@ -29,8 +29,6 @@
 #include <vector>
 #include "boost/shared_ptr.hpp"
 #include "event.h"
-#include "boost/date_time/gregorian/gregorian.hpp"
-#include "boost/date_time/posix_time/posix_time.hpp"
 #include "Participants/player.h"
 
 namespace nedges {
@@ -171,7 +169,7 @@ public:
      * \brief getDate
      * \return
      */
-    boost::gregorian::date const & getDate() const {
+    Date const & getDate() const {
         return date;
     }
 
@@ -251,13 +249,13 @@ private:
      *
      * Tournament Start Date
      */
-    boost::gregorian::date date;
+    Date date;
     /*!
      * \brief event_dates
      *
      * An array of dates the events in the tournament take place
      */
-    std::vector<boost::gregorian::date> event_dates;
+    std::vector<Date> event_dates;
     /*!
      * \brief club
      *

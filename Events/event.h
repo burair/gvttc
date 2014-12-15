@@ -27,7 +27,6 @@
 #define NEDGES_EVENT_H
 
 #include <string>
-//#include "eventbase.h"
 #include "boost/date_time/posix_time/posix_time.hpp"
 #include "boost/date_time/gregorian/gregorian.hpp"
 

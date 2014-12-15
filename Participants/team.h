@@ -37,7 +37,7 @@ public:
   Team();
 
 private:
-  std::vector<Player> players;
+  PlayerListType players;
   int size;
   std::string name;
   int team_number;

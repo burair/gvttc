@@ -4,8 +4,8 @@
  *                                                                        *
  *   "Wish you LOTS of nedges (Nets and Edges)!!."                        *
  *                                          -- Wayne Carney, Ray Mack     *
- *   Author: Burair Kothari 2014                                          *
- *                Genesee Valley Table Tennis CLub 2014                   *
+ *   Author: Burair Kothari, 2014                                         *
+ *                Genesee Valley Table Tennis CLub                        *
  *                http://www.gvttc.com                                    *
  *                                                                        *
  *                                                                        *
@@ -26,9 +26,10 @@
 #ifndef NEDGES_PLAYER_H
 #define NEDGES_PLAYER_H
 
-//#include "person.h"
 #include <string>
 #include <vector>
+#include "boost/shared_ptr.hpp"
+#include "boost/make_shared.hpp"
 
 namespace nedges {
 /*!
@@ -106,7 +107,7 @@ private:
 
     /*!
      * \brief identifiers
-     * The identifiers associated with the player. National/Internatioal Organizations, Clubs, Locations: i.e. cities, states, countries etc
+     * The identifiers associated with the player. National/International Organizations, Clubs, Locations: i.e. cities, states, countries etc
      * in pairs indicating type and value: i.e. A player with a USATT membership, ITTF rating, Ratings Central rating, a member of the clubs GVTTC and MVTTC,
      * residing in Rochester, NY USA would have:
      * org,USATT;org,ITTF;org,Ratings Central;club,GVTTC;club,MVTTC;city,Rochester;state,NY;country,USA
@@ -122,6 +123,17 @@ private:
     char gender;
 
 };
+
+/*!
+ * \brief PlayerPtr
+ */
+typedef boost::shared_ptr<Player> PlayerPtr;
+/*!
+ * \brief PlayerListType
+ */
+typedef std::vector<PlayerPtr> PlayerListType;
+typedef boost::shared_ptr<PlayerListType> PlayerListPtrType;
+
 
 } // namespace nedges
 #endif // NEDGES_PLAYER_H

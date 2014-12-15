@@ -26,12 +26,7 @@
 #ifndef NEDGES_ROUNDROBIN_H
 #define NEDGES_ROUNDROBIN_H
 
-#include "boost/shared_ptr.hpp"
-#include "boost/make_shared.hpp"
-#include "boost/date_time/posix_time/posix_time.hpp"
-#include <vector>
 #include <map>
-#include <string>
 #include "Participants/player.h"
 #include "event.h"
 
@@ -70,16 +65,6 @@ namespace nedges {
 
   class RoundRobin : public Event
   {
-    /*!
-     * \brief PlayerPtr
-     */
-    typedef boost::shared_ptr<Player> PlayerPtr;
-    /*!
-     * \brief PlayerListType
-     */
-    typedef std::vector<PlayerPtr> PlayerListType;
-    typedef boost::shared_ptr<PlayerListType> PlayerListPtrType;
-
   public:
     /*!
      * \brief RoundRobin

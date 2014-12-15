@@ -26,6 +26,7 @@
 #include <iostream>
 #include "Participants/player.h"
 #include "Events/roundrobin.h"
+#include "Events/league.h"
 #include "hpdf.h"
 #include "hpdf_types.h"
 using namespace std;
@@ -110,7 +111,26 @@ void error_handler (HPDF_STATUS error_no, HPDF_STATUS detail_no, void *user_data
 
 int main()
 {
-    nedges::ScheduleRoundRobin(8,4);
+//    nedges::ScheduleRoundRobin(8,4);
+
+    nedges::League my_league;
+    nedges::Date start=nedges::make_date_from_string("2015-Jan-7");
+    nedges::Date end=nedges::make_date_from_string("2015-Apr-1");
+    nedges::Date h1=nedges::make_date_from_string("2015-Mar-18");
+    nedges::Date h3=nedges::make_date_from_string("2015-Mar-18");
+    nedges::Date h2=nedges::make_date_from_string("2015-Apr-1");
+
+    nedges::date_list hlist;
+    hlist.clear();
+    hlist.push_back(h1);
+    hlist.push_back(h2);
+    hlist.push_back(h3);
+
+//    my_league.make_weekly_schedule(start,end,hlist);
+    hlist.push_back(end);
+    hlist.push_back(start);
+    my_league.make_schedule_from_date_list(hlist);
+    my_league.show_schedule();
     HPDF_Doc pdf;
 
     pdf = HPDF_New (error_handler, NULL);
