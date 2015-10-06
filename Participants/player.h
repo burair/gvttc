@@ -107,7 +107,7 @@ private:
 
     /*!
      * \brief identifiers
-     * The identifiers associated with the player. National/International Organizations, Clubs, Locations: i.e. cities, states, countries etc
+     * The identifiers associated with the player. National/International Organizations, Federations, Clubs, Locations: i.e. cities, states, countries etc
      * in pairs indicating type and value: i.e. A player with a USATT membership, ITTF rating, Ratings Central rating, a member of the clubs GVTTC and MVTTC,
      * residing in Rochester, NY USA would have:
      * org,USATT;org,ITTF;org,Ratings Central;club,GVTTC;club,MVTTC;city,Rochester;state,NY;country,USA

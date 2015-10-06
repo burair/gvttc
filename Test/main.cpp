@@ -2,8 +2,8 @@
  *   This file is part of Nedges.                                         *
  *   A table tennis club, league and tournament management package.       *
  *                                                                        *
- *   "May your game be full of nedges (Nets and Edges)."                  *
- *                                                -- Ray Mack             *
+ *   "Wish you LOTS of nedges (Nets and Edges)."                          *
+ *                                        -- Wayne Carney, Ray Mack       *
  *   Author: Burair Kothari 2014                                          *
  *                Genesee Valley Table Tennis CLub 2014                   *
  *                http://www.gvttc.com                                    *
@@ -27,8 +27,6 @@
 #include "Participants/player.h"
 #include "Events/roundrobin.h"
 #include "Events/league.h"
-#include "hpdf.h"
-#include "hpdf_types.h"
 using namespace std;
 
 namespace nedges {
@@ -102,59 +100,26 @@ void ScheduleRoundRobin(int num_participants, int num_venues_available) {
 
 } //namespace nedges
 
-void error_handler (HPDF_STATUS error_no, HPDF_STATUS detail_no, void *user_data)
-{
-    printf ("ERROR: error_no=%04X, detail_no=%d\n",
-      (unsigned int) error_no, (int) detail_no);
-//    longjmp (env, 1); /* invoke longjmp() on error */
-}
-
 int main()
 {
-//    nedges::ScheduleRoundRobin(8,4);
+    nedges::ScheduleRoundRobin(12,5);
 
-    nedges::League my_league;
-    nedges::Date start=nedges::make_date_from_string("2015-Jan-7");
-    nedges::Date end=nedges::make_date_from_string("2015-Apr-1");
-    nedges::Date h1=nedges::make_date_from_string("2015-Mar-18");
-    nedges::Date h3=nedges::make_date_from_string("2015-Mar-18");
-    nedges::Date h2=nedges::make_date_from_string("2015-Apr-1");
+    nedges::League my_league("Summer 2015");
+//    nedges::Date start=nedges::make_date_from_string("2015-Jun-12");
+    nedges::Date start = boost::gregorian::nth_day_of_the_week_in_month(boost::gregorian::nth_day_of_the_week_in_month::second, boost::gregorian::Monday,boost::gregorian::Jun).get_date(2015);
+    nedges::Date end=nedges::make_date_from_string("2015-Aug-14");
+    nedges::date_list breaks;
+    breaks.push_back(nedges::make_date_from_string("2015-Jul-1"));
+    std::vector<boost::date_time::weekdays> league_days;
+ //   league_days.push_back(boost::date_time::Monday);
+    league_days.push_back(boost::date_time::Tuesday);
+    league_days.push_back(boost::date_time::Wednesday);
+ //   league_days.push_back(boost::date_time::Thursday);
+ //   league_days.push_back(boost::date_time::Friday);
+    league_days.push_back(boost::date_time::Saturday);
+ //   league_days.push_back(boost::date_time::Sunday);
 
-    nedges::date_list hlist;
-    hlist.clear();
-    hlist.push_back(h1);
-    hlist.push_back(h2);
-    hlist.push_back(h3);
-
-//    my_league.make_weekly_schedule(start,end,hlist);
-    hlist.push_back(end);
-    hlist.push_back(start);
-    my_league.make_schedule_from_date_list(hlist);
+    my_league.make_weekly_schedule(start,end,breaks,league_days);
     my_league.show_schedule();
-    HPDF_Doc pdf;
-
-    pdf = HPDF_New (error_handler, NULL);
-
-    if (!pdf) {
-        std::cout << "ERROR:Cannot create pdf object" << std::endl;
-        return 1;
-      }
-
-    HPDF_Page page_1;
-
-    page_1 = HPDF_AddPage (pdf);
-
-    HPDF_Image logo;
-
-    logo = HPDF_LoadPngImageFromFile(pdf,"Table_tennis.png");
-
-    std::cout << HPDF_Image_GetWidth(logo) << " " << HPDF_Image_GetHeight(logo) << std::endl;
-
-    HPDF_Page_DrawImage(page_1,logo, 200, HPDF_Page_GetHeight(page_1) - 500,HPDF_Image_GetWidth(logo),HPDF_Image_GetHeight(logo));
-
-    HPDF_SaveToFile (pdf, "test.pdf");
-
-
-    HPDF_Free (pdf);
 }
 

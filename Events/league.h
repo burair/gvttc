@@ -51,9 +51,15 @@ typedef std::vector<Team> teams;
 class League : public Event
 {
 public:
-  League();
+  League(std::string _name="");
 
   virtual ~League() {}
+
+  void setName(std::string _name) { name = _name; }
+
+  std::string const getName() { return name; }
+
+  void make_weekly_schedule(const Date &_start, const Date &_end, const date_list &_off_dates, const std::vector<boost::date_time::weekdays> _league_days);
 
   void make_weekly_schedule(Date const &_start, Date const &_end, date_list const & _off_dates);
 
@@ -65,6 +71,7 @@ public:
 
   void show_schedule() const;
 protected:
+  std::string name;
   league_schedule schedule;
 };
 
@@ -72,6 +79,7 @@ class TeamLeague: public League
 {
 public:
   TeamLeague();
+
 
 private:
   teams teamlist;
@@ -92,9 +100,13 @@ private:
   ladder_ranking_list players;
 };
 
+Date find_league_start_date(const Date &_s, const std::vector<boost::date_time::weekdays> _ld);
+
 Date make_date_from_string(std::string const & a_date);
 
+Date get_league_end_day(const boost::gregorian::greg_weekday & wday, const Date & end );
 
+void find_next_league_date(Date & _td, boost::gregorian::date_duration const & _dtnm, date_list const & _od );
 
 } //namespace nedges
 #endif // LEAGUE_H

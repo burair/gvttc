@@ -46,9 +46,10 @@ class Match
 public:
   Match();
 
+
   virtual ~Match();
 
-private:
+protected:
   match_score score;
 };
 /*!
@@ -87,6 +88,8 @@ class TeamMatch
   virtual ~TeamMatch();
  protected:
   team_match_score match_score;
+ private:
+
 };
 
 /*!

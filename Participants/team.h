@@ -35,6 +35,28 @@ class Team
 {
 public:
   Team();
+  int insert_player(PlayerPtr & _player) {
+    players.push_back(_player);
+    return players.size();
+  }
+  void set_team_name(std::string const & _name) {
+    name = _name;
+  }
+  std::string get_name() const {
+    return name;
+  }
+  void set_size (int _sz) {
+    size=_sz;
+  }
+  int get_size () const {
+    return size;
+  }
+  void set_team_number(int _tn) {
+    team_number = _tn;
+  }
+  int get_team_number() const {
+    return team_number;
+  }
 
 private:
   PlayerListType players;
